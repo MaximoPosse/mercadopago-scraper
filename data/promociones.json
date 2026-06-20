@@ -1,0 +1,17 @@
+[
+  {
+    "comercio": "EJEMPLO",
+    "beneficio": "Hasta 45% OFF",
+    "tipo_promocion": "descuento",
+    "descripcion": "Descripción de ejemplo de la promoción.",
+    "vigencia": "Válido del 1 al 15 de junio",
+    "metodo_pago": "Mercado Pago",
+    "bancos": ["Visa", "Mastercard", "American Express"],
+    "marcas": ["Electrónica", "Hogar"],
+    "sucursales": ["Tienda online", "Sucursal Microcentro"],
+    "terminos_condiciones": "Términos y condiciones completos de la promoción...",
+    "imagen": "https://ejemplo.com/imagen.jpg",
+    "imagen_condiciones": null,
+    "url_promocion": "https://promociones.mercadopago.com.ar/seller/ejemplo/"
+  }
+]

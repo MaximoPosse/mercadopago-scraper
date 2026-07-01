@@ -36,7 +36,9 @@ información adicional.
 - index.js - Orquestador principal
 - scraperPromociones.js - Mdulo de scraping de detalle
 - utils/limpiarTexto.js - Limpieza de textos
+- utils/logger.js - Sistema de logs a archivo
 - data/promociones.json - Archivo de salida
+- data/reporte.json - Reporte de ejecucin
 
 ## Mejoras de esta versión
 
@@ -60,3 +62,17 @@ información adicional.
 
 7. Cdigo modular: separado en mdulos para facilitar el mantenimiento
    y la reutilizacin.
+
+## Mejoras de la versin 3
+
+1. Sistema de logs: se crea logs/scraper.log con timestamps ISO para
+   cada evento (inicio, cada promocin procesada, errores y fin).
+
+2. Reporte de ejecucin: se genera data/reporte.json con fecha, duracin
+   en segundos, promociones encontradas, procesadas OK, con error y
+   duplicadas.
+
+3. Mtrica de duracin: se mide y muestra el tiempo total de ejecucin.
+
+4. Estadsticas en consola: al finalizar se muestra el resumen con
+   cantidad de exitosas, errores y duplicados.

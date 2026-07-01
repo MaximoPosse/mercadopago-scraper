@@ -27,7 +27,9 @@ node index.js
 - `index.js` — Orquestador principal: navega al listado, desduplica, procesa cada promoción y guarda el resultado.
 - `scraperPromociones.js` — Módulo que ingresa a la página de detalle de cada promoción y extrae datos adicionales.
 - `utils/limpiarTexto.js` — Utilidad para limpiar textos (elimina saltos de línea y espacios múltiples).
+- `utils/logger.js` — Módulo de logging que escribe en `logs/scraper.log` con timestamp.
 - `data/promociones.json` — Archivo de salida con todas las promociones.
+- `data/reporte.json` — Reporte de ejecución con estadísticas (duración, errores, duplicados).
 
 ## Datos extraídos por promoción
 
@@ -46,6 +48,13 @@ node index.js
 | `imagen` | URL de la imagen principal |
 | `imagen_condiciones` | URL de imagen con términos (si existe) |
 | `url_promocion` | Enlace a la página de detalle |
+
+## Mejoras implementadas (v3)
+
+1. **Sistema de logs**: se crea `logs/scraper.log` con timestamps ISO para cada evento (inicio, cada promoción procesada, errores y fin).
+2. **Reporte de ejecución**: al finalizar se genera `data/reporte.json` con fecha, duración en segundos, promociones encontradas, procesadas OK, con error y duplicadas.
+3. **Métrica de duración**: se mide y muestra el tiempo total de ejecución.
+4. **Estadísticas en consola**: al finalizar se muestra el resumen con cantidad de exitosas, errores y duplicados.
 
 ## Mejoras implementadas (v2)
 

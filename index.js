@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const { scrapeDetallePromocion, detectarTipoPromocion } = require('./scraperPromociones');
+const { log, error: logError } = require('./utils/logger');
 
 const DATA_DIR = path.join(__dirname, 'data');
 const URL = 'https://promociones.mercadopago.com.ar/';
@@ -15,6 +16,8 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
 
+    const inicio = Date.now();
+    log('Inicio del proceso de scraping');
     console.log('Iniciando navegador...');
     browser = await puppeteer.launch({
       headless: true,
@@ -70,6 +73,8 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     });
     const promocionesUnicas = [...seen.values()];
 
+    const duplicados = promocionesBase.length - promocionesUnicas.length;
+    log(`Promociones encontradas: ${promocionesBase.length}, únicas: ${promocionesUnicas.length}, duplicadas descartadas: ${duplicados}`);
     console.log(`Promociones únicas (sin duplicados): ${promocionesUnicas.length}\n`);
 
     const resultados = [];
@@ -82,6 +87,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       const nombre = promo.comercio || 'Sin nombre';
 
       console.log(`[${idx}/${total}] Procesando: ${nombre}`);
+      log(`Procesando [${idx}/${total}]: ${nombre}`);
 
       try {
         const detalle = await scrapeDetallePromocion(page, promo.url_promocion);
@@ -102,10 +108,10 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
           url_promocion: promo.url_promocion,
         });
 
-        console.log(`  ✓ Procesada`);
+        log(`  ✓ Procesada: ${nombre}`);
       } catch (error) {
         errores++;
-        console.error(`  ✗ Error: ${error.message}`);
+        logError(`  ✗ Error en ${nombre}: ${error.message}`);
 
         resultados.push({
           comercio: promo.comercio,
@@ -128,10 +134,29 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const outputPath = path.join(DATA_DIR, 'promociones.json');
     fs.writeFileSync(outputPath, JSON.stringify(resultados, null, 2));
 
+    const procesadasOk = resultados.length - errores;
+    const segundos = ((Date.now() - inicio) / 1000).toFixed(2);
+    const stats = {
+      fecha_ejecucion: new Date().toISOString(),
+      duracion_segundos: parseFloat(segundos),
+      promociones_encontradas: promocionesBase.length,
+      promociones_procesadas_ok: procesadasOk,
+      promociones_con_error: errores,
+      promociones_duplicadas: duplicados,
+      total_guardadas: resultados.length,
+    };
+
+    const reportePath = path.join(DATA_DIR, 'reporte.json');
+    fs.writeFileSync(reportePath, JSON.stringify(stats, null, 2));
+
     console.log(`\nProceso finalizado.`);
     console.log(`Total procesadas: ${resultados.length}`);
     console.log(`Errores: ${errores}`);
     console.log(`Datos guardados en: ${outputPath}`);
+    console.log(`Reporte guardado en: ${reportePath}`);
+    console.log(`Duración total: ${segundos}s`);
+
+    log(`Proceso finalizado. ${procesadasOk} ok, ${errores} errores, ${duplicados} duplicadas. Duración: ${segundos}s`);
 
   } catch (error) {
     console.error('\nError crítico en el scraper:', error.message);
@@ -140,6 +165,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     if (browser) {
       await browser.close();
       console.log('Navegador cerrado.');
+      log('Navegador cerrado');
     }
   }
 })();

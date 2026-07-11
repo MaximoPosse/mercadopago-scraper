@@ -56,6 +56,10 @@ node index.js
 3. **Métrica de duración**: se mide y muestra el tiempo total de ejecución.
 4. **Estadísticas en consola**: al finalizar se muestra el resumen con cantidad de exitosas, errores y duplicados.
 
+## Mejoras implementadas (v4)
+
+1. **Reintentos automáticos**: si falla el detalle de una promoción, se reintenta hasta 3 veces con espera progresiva (2s, 4s) antes de descartarla como error definitivo.
+
 ## Mejoras implementadas (v2)
 
 1. **Scraping de detalle**: cada promoción abre su página individual y extrae términos, medios de pago, bancos, marcas, sucursales, tipo de promoción e imágenes con condiciones.

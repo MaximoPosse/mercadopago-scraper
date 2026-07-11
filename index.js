@@ -79,6 +79,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const resultados = [];
     let errores = 0;
+    const MAX_INTENTOS = 3;
 
     for (let i = 0; i < promocionesUnicas.length; i++) {
       const promo = promocionesUnicas[i];
@@ -89,9 +90,26 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       console.log(`[${idx}/${total}] Procesando: ${nombre}`);
       log(`Procesando [${idx}/${total}]: ${nombre}`);
 
-      try {
-        const detalle = await scrapeDetallePromocion(page, promo.url_promocion);
+      let detalle;
+      let exito = false;
 
+      for (let intento = 1; intento <= MAX_INTENTOS; intento++) {
+        try {
+          detalle = await scrapeDetallePromocion(page, promo.url_promocion);
+          exito = true;
+          break;
+        } catch (error) {
+          if (intento < MAX_INTENTOS) {
+            log(`  ⚠ Intento ${intento}/${MAX_INTENTOS} falló, reintentando...`);
+            await sleep(intento * 2000);
+          } else {
+            errores++;
+            logError(`  ✗ Error en ${nombre} tras ${MAX_INTENTOS} intentos: ${error.message}`);
+          }
+        }
+      }
+
+      if (exito) {
         resultados.push({
           comercio: promo.comercio,
           beneficio: promo.beneficio,
@@ -109,10 +127,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         });
 
         log(`  ✓ Procesada: ${nombre}`);
-      } catch (error) {
-        errores++;
-        logError(`  ✗ Error en ${nombre}: ${error.message}`);
-
+      } else {
         resultados.push({
           comercio: promo.comercio,
           beneficio: promo.beneficio,

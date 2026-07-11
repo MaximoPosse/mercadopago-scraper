@@ -76,3 +76,9 @@ información adicional.
 
 4. Estadsticas en consola: al finalizar se muestra el resumen con
    cantidad de exitosas, errores y duplicados.
+
+## Mejoras de la versin 4
+
+1. Reintentos automticos: si falla el detalle de una promocin, se
+   reintenta hasta 3 veces con espera progresiva (2s, 4s) antes de
+   descartarla como error definitivo.

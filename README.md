@@ -60,6 +60,10 @@ node index.js
 
 1. **Reintentos automáticos**: si falla el detalle de una promoción, se reintenta hasta 3 veces con espera progresiva (2s, 4s) antes de descartarla como error definitivo.
 
+## Mejoras implementadas (v5)
+
+1. **Detección de cambios**: al finalizar, compara las promociones actuales con las de la ejecución anterior y muestra cuáles se agregaron y cuáles se eliminaron.
+
 ## Mejoras implementadas (v2)
 
 1. **Scraping de detalle**: cada promoción abre su página individual y extrae términos, medios de pago, bancos, marcas, sucursales, tipo de promoción e imágenes con condiciones.

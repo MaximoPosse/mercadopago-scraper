@@ -82,3 +82,9 @@ información adicional.
 1. Reintentos automticos: si falla el detalle de una promocin, se
    reintenta hasta 3 veces con espera progresiva (2s, 4s) antes de
    descartarla como error definitivo.
+
+## Mejoras de la versin 5
+
+1. Deteccin de cambios: al finalizar, compara las promociones actuales
+   con las de la ejecucin anterior y muestra cules se agregaron y
+   cules se eliminaron.

@@ -147,7 +147,30 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     }
 
     const outputPath = path.join(DATA_DIR, 'promociones.json');
+
+    const anteriores = (() => {
+      try {
+        return JSON.parse(fs.readFileSync(outputPath, 'utf8'));
+      } catch {
+        return [];
+      }
+    })();
+
     fs.writeFileSync(outputPath, JSON.stringify(resultados, null, 2));
+
+    const urlsAnteriores = new Set(anteriores.map(p => p.url_promocion));
+    const urlsNuevas = new Set(resultados.map(p => p.url_promocion));
+    const agregadas = resultados.filter(p => !urlsAnteriores.has(p.url_promocion));
+    const eliminadas = anteriores.filter(p => !urlsNuevas.has(p.url_promocion));
+
+    if (anteriores.length > 0) {
+      console.log(`\n--- Cambios detectados ---`);
+      console.log(`  Nuevas promociones: ${agregadas.length}`);
+      agregadas.forEach(p => console.log(`    + ${p.comercio}: ${p.beneficio}`));
+      console.log(`  Promociones eliminadas: ${eliminadas.length}`);
+      eliminadas.forEach(p => console.log(`    - ${p.comercio}: ${p.beneficio}`));
+      console.log(`-------------------------\n`);
+    }
 
     const procesadasOk = resultados.length - errores;
     const segundos = ((Date.now() - inicio) / 1000).toFixed(2);
@@ -159,6 +182,8 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       promociones_con_error: errores,
       promociones_duplicadas: duplicados,
       total_guardadas: resultados.length,
+      promociones_agregadas: anteriores.length > 0 ? agregadas.length : null,
+      promociones_eliminadas: anteriores.length > 0 ? eliminadas.length : null,
     };
 
     const reportePath = path.join(DATA_DIR, 'reporte.json');

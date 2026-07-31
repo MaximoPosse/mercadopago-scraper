@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { scrapeDetallePromocion, detectarTipoPromocion } = require('./scraperPromociones');
 const { log, error: logError } = require('./utils/logger');
+const { exportarProductos } = require('./utils/exportarProductos');
 
 const DATA_DIR = path.join(__dirname, 'data');
 const URL = 'https://promociones.mercadopago.com.ar/';
@@ -30,19 +31,43 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     await page.goto(URL, { waitUntil: 'networkidle2', timeout: 60000 });
     await page.waitForSelector('.kiyo__cards--col', { timeout: 30000 });
 
-    try {
+    let clicksPaginacion = 0;
+    const MAX_CLICKS = 50;
+
+    while (clicksPaginacion < MAX_CLICKS) {
       const botones = await page.$$('.kiyo__button--load-more');
+      let clickRealizado = false;
+
       for (const btn of botones) {
         const visible = await btn.isIntersectingViewport();
-        if (visible) {
-          console.log('Cargando más promociones...');
-          await btn.click();
-          await sleep(3000);
-          break;
+        if (!visible) continue;
+
+        const cantidadAnterior = await page.$$eval('.kiyo__cards--col', (els) => els.length);
+        console.log(`Cargando más promociones (click ${clicksPaginacion + 1})...`);
+        await btn.click();
+        await sleep(3000);
+
+        try {
+          await page.waitForFunction(
+            (prev) => document.querySelectorAll('.kiyo__cards--col').length > prev,
+            { timeout: 10000 },
+            cantidadAnterior
+          );
+        } catch {
+          // El botón puede seguir visible sin nuevas tarjetas
         }
+
+        clicksPaginacion++;
+        clickRealizado = true;
+        break;
       }
-    } catch {
-      // No load-more button found
+
+      if (!clickRealizado) break;
+    }
+
+    if (clicksPaginacion > 0) {
+      log(`Paginación completa: ${clicksPaginacion} click(s) en "Ver más"`);
+      console.log(`Paginación completa: ${clicksPaginacion} click(s) en "Ver más"`);
     }
 
     const promocionesBase = await page.evaluate(() => {
@@ -158,6 +183,10 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     fs.writeFileSync(outputPath, JSON.stringify(resultados, null, 2));
 
+    const productosPath = path.join(DATA_DIR, 'productos.json');
+    const productos = exportarProductos(resultados);
+    fs.writeFileSync(productosPath, JSON.stringify(productos, null, 2));
+
     const urlsAnteriores = new Set(anteriores.map(p => p.url_promocion));
     const urlsNuevas = new Set(resultados.map(p => p.url_promocion));
     const agregadas = resultados.filter(p => !urlsAnteriores.has(p.url_promocion));
@@ -193,6 +222,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     console.log(`Total procesadas: ${resultados.length}`);
     console.log(`Errores: ${errores}`);
     console.log(`Datos guardados en: ${outputPath}`);
+    console.log(`Export estándar guardado en: ${productosPath}`);
     console.log(`Reporte guardado en: ${reportePath}`);
     console.log(`Duración total: ${segundos}s`);
 

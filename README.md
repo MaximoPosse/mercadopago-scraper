@@ -20,15 +20,20 @@ node index.js
 
 ## Salida
 
-`data/promociones.json`
+- `data/promociones.json` — Datos completos de cada promoción
+- `data/productos.json` — Export en el esquema estándar del trabajo (nombre, imagen, código, condiciones, etc.)
+- `data/reporte.json` — Estadísticas de la ejecución
+- `logs/scraper.log` — Log detallado con timestamps
 
 ## Estructura del proyecto
 
 - `index.js` — Orquestador principal: navega al listado, desduplica, procesa cada promoción y guarda el resultado.
 - `scraperPromociones.js` — Módulo que ingresa a la página de detalle de cada promoción y extrae datos adicionales.
 - `utils/limpiarTexto.js` — Utilidad para limpiar textos (elimina saltos de línea y espacios múltiples).
+- `utils/exportarProductos.js` — Convierte promociones al formato estándar `productos.json`.
 - `utils/logger.js` — Módulo de logging que escribe en `logs/scraper.log` con timestamp.
 - `data/promociones.json` — Archivo de salida con todas las promociones.
+- `data/productos.json` — Export adaptado al esquema del trabajo práctico.
 - `data/reporte.json` — Reporte de ejecución con estadísticas (duración, errores, duplicados).
 
 ## Datos extraídos por promoción
@@ -48,6 +53,11 @@ node index.js
 | `imagen` | URL de la imagen principal |
 | `imagen_condiciones` | URL de imagen con términos (si existe) |
 | `url_promocion` | Enlace a la página de detalle |
+
+## Mejoras implementadas (v6)
+
+1. **Paginación completa**: hace clic repetido en "Ver más" hasta cargar todas las promociones disponibles (máx. 50 clicks de seguridad).
+2. **Export estándar**: genera `data/productos.json` mapeando cada promoción al esquema del trabajo (nombre, imagen, código, descripción, condiciones, url_producto). Los campos `precio` y `precio_descuento` quedan en `null` porque Mercado Pago no expone precios de productos individuales.
 
 ## Mejoras implementadas (v3)
 
@@ -71,7 +81,7 @@ node index.js
 3. **Logs detallados**: muestra cantidad de promociones encontradas, cuál se está procesando, progreso y total al finalizar.
 4. **Eliminación de duplicados**: desduplica por `url_promocion` usando un Map.
 5. **Limpieza de textos**: elimina saltos de línea y espacios innecesarios en todos los campos extraídos.
-6. **Carga de más promociones**: intenta hacer clic en "Ver todas las ofertas" si existe.
+6. **Carga de más promociones**: paginación completa con clics repetidos en "Ver más" hasta agotar el listado.
 7. **Estructura modular**: código dividido en `index.js`, `scraperPromociones.js` y `utils/limpiarTexto.js`.
 
 ## Entrega

@@ -1,5 +1,7 @@
+const { limpiarTexto } = require('./utils/limpiarTexto');
+
 function detectarTipoPromocion(beneficio, descripcion) {
-  const texto = `${beneficio || ''} ${descripcion || ''}`.toLowerCase();
+  const texto = (limpiarTexto(`${beneficio || ''} ${descripcion || ''}`) || '').toLowerCase();
   if (/reintegro|devolucion|cash.back/i.test(texto)) return 'reintegro';
   if (/sin.interes/i.test(texto) && /cuota/i.test(texto)) return 'cuotas sin interés';
   if (/\b2x1\b/.test(texto)) return '2x1';
@@ -26,7 +28,7 @@ async function scrapeDetallePromocion(page, url) {
       imagen_condiciones: null
     };
 
-    const clean = t => (t || '').replace(/\s+/g, ' ').trim();
+    const clean = t => (t || '').replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ').trim();
     const bancosSet = new Set();
     const marcasSet = new Set();
     const sucursalesSet = new Set();
@@ -38,9 +40,10 @@ async function scrapeDetallePromocion(page, url) {
 
     const headings = document.querySelectorAll('h2, h3, h4, h5');
     headings.forEach(h => {
-      const text = clean(h.innerText).toLowerCase();
+      const headingText = clean(h?.innerText || '');
+      const text = headingText.toLowerCase();
       let content = '';
-      let sib = h.nextElementSibling;
+      let sib = h?.nextElementSibling;
       while (sib && !/^H[1-6]$/.test(sib.tagName)) {
         content += (sib.innerText || sib.textContent || '') + '\n';
         sib = sib.nextElementSibling;

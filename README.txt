@@ -13,9 +13,10 @@ Repositorio: https://github.com/MaximoPosse/mercadopago-scraper
 
 ## Uso
 
-1. Abrir una terminal en la carpeta del proyecto
-2. Ejecutar: node index.js
-3. Los resultados estarán en:
+1. Abrir una terminal en la carpeta del proyecto (por ejemplo, `mercadopago-scraper-master`)
+2. Ejecutar: npm install
+3. Ejecutar: npm start
+4. Los resultados estarán en:
    - data/promociones.json (datos completos)
    - data/productos.json (formato estándar del trabajo)
    - data/reporte.json (estadísticas de ejecución)

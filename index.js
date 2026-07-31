@@ -4,6 +4,7 @@ const path = require('path');
 const { scrapeDetallePromocion, detectarTipoPromocion } = require('./scraperPromociones');
 const { log, error: logError } = require('./utils/logger');
 const { exportarProductos } = require('./utils/exportarProductos');
+const { limpiarTexto } = require('./utils/limpiarTexto');
 
 const DATA_DIR = path.join(__dirname, 'data');
 const URL = 'https://promociones.mercadopago.com.ar/';
@@ -23,33 +24,42 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     browser = await puppeteer.launch({
       headless: true,
       defaultViewport: null,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
 
     console.log('Accediendo al sitio:', URL);
     await page.goto(URL, { waitUntil: 'networkidle2', timeout: 60000 });
-    await page.waitForSelector('.kiyo__cards--col', { timeout: 30000 });
+    await page.waitForFunction(
+      () => document.querySelectorAll('.kiyo__cards--col, .promotion-card, article').length > 0,
+      { timeout: 30000 }
+    );
 
     let clicksPaginacion = 0;
     const MAX_CLICKS = 50;
 
     while (clicksPaginacion < MAX_CLICKS) {
-      const botones = await page.$$('.kiyo__button--load-more');
+      const botones = await page.$$('.kiyo__button--load-more, button');
       let clickRealizado = false;
 
       for (const btn of botones) {
         const visible = await btn.isIntersectingViewport();
         if (!visible) continue;
 
-        const cantidadAnterior = await page.$$eval('.kiyo__cards--col', (els) => els.length);
+        const textoBoton = await btn.evaluate(el => (el.textContent || '').trim().toLowerCase());
+        if (textoBoton && !textoBoton.includes('ver más') && !textoBoton.includes('more')) {
+          continue;
+        }
+
+        const cantidadAnterior = await page.$$eval('.kiyo__cards--col, .promotion-card, article', (els) => els.length);
         console.log(`Cargando más promociones (click ${clicksPaginacion + 1})...`);
         await btn.click();
         await sleep(3000);
 
         try {
           await page.waitForFunction(
-            (prev) => document.querySelectorAll('.kiyo__cards--col').length > prev,
+            (prev) => document.querySelectorAll('.kiyo__cards--col, .promotion-card, article').length > prev,
             { timeout: 10000 },
             cantidadAnterior
           );
@@ -70,9 +80,9 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       console.log(`Paginación completa: ${clicksPaginacion} click(s) en "Ver más"`);
     }
 
-    const promocionesBase = await page.evaluate(() => {
+    const promocionesBase = (await page.evaluate(() => {
       const clean = t => (t || '').replace(/\s+/g, ' ').trim();
-      const columnas = document.querySelectorAll('.kiyo__cards--col');
+      const columnas = document.querySelectorAll('.kiyo__cards--col, .promotion-card, article');
       return [...columnas].map(columna => {
         const data = columna.querySelector('.kiyo__data');
         const item = columna.querySelector('.kiyo__cards--item');
@@ -86,7 +96,15 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
           url_promocion: data?.querySelector('.kiyo__data--details-btn a')?.href || null,
         };
       });
-    });
+    })).map(p => ({
+      comercio: limpiarTexto(p.comercio),
+      beneficio: limpiarTexto(p.beneficio),
+      cuotas: limpiarTexto(p.cuotas),
+      imagen: p.imagen,
+      descripcion: limpiarTexto(p.descripcion),
+      vigencia: limpiarTexto(p.vigencia),
+      url_promocion: p.url_promocion,
+    }));
 
     console.log(`\nPromociones encontradas en la página principal: ${promocionesBase.length}`);
 

@@ -1,0 +1,16 @@
+{
+  "fecha_ejecucion": "2026-09-10T14:15:58.858Z",
+  "duracion_segundos": 82.49,
+  "promociones_encontradas": 12,
+  "promociones_procesadas_ok": 12,
+  "promociones_con_error": 0,
+  "promociones_duplicadas": 0,
+  "total_guardadas": 12,
+  "promociones_agregadas": 0,
+  "promociones_eliminadas": 0,
+  "resumen_por_tipo": {
+    "descuento": 7,
+    "2x1": 2,
+    "cuotas sin interés": 3
+  }
+}

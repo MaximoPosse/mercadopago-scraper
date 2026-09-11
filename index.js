@@ -38,8 +38,11 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     for (let intento = 1; intento <= 3 && !cargado; intento++) {
       try {
         await page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
-        await page.waitForSelector('.kiyo__cards--col', { timeout: 30000 });
-        cargado = true;
+        for (let espera = 0; espera < 30 && !cargado; espera++) {
+          const n = await page.evaluate((sel) => document.querySelectorAll(sel).length, CARD_SELECTOR).catch(() => 0);
+          if (n > 0) { cargado = true; break; }
+          await sleep(2000);
+        }
       } catch (error) {
         console.log(`Intento ${intento}/3 de carga falló: ${error.message}`);
         if (intento < 3) await sleep(intento * 2000);

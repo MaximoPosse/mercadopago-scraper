@@ -38,6 +38,7 @@ npm test
 - `data/resumen.json` — Estadísticas por tipo de promoción y comercios más frecuentes
 - `data/cambios.json` — Detalle de promociones nuevas y eliminadas vs. ejecución anterior
 - `data/reporte.json` — Estadísticas de la ejecución
+- `data/historico/` — Histórico por día (un JSON por fecha con el estado de las promociones)
 - `logs/scraper.log` — Log detallado con timestamps
 
 ## Estructura del proyecto
@@ -49,6 +50,7 @@ npm test
 - `utils/exportarCsv.js` — Genera el export en CSV.
 - `utils/generarResumen.js` — Calcula resumen estadístico y cambios entre ejecuciones.
 - `utils/parsearVigencia.js` — Extrae fechas desde el texto de vigencia.
+- `utils/historico.js` — Guarda y lee el histórico por día.
 - `test/utils.test.js` — Pruebas automáticas de las utilidades del proyecto.
 - `utils/logger.js` — Módulo de logging que escribe en `logs/scraper.log` con timestamp.
 - `data/promociones.json` — Archivo de salida con todas las promociones.
@@ -82,6 +84,13 @@ npm test
 3. **Cambios detallados**: genera `data/cambios.json` con listas de promociones nuevas y eliminadas (comercio, beneficio, vigencia, URL).
 4. **Parseo de vigencia**: extrae `vigencia_desde` y `vigencia_hasta` desde textos como "Válido del 11 al 17 de mayo".
 5. **Filtro de términos**: descarta textos de T&C que parecen páginas embebidas (muchas menciones de precios) y limita textos muy largos.
+
+## Mejoras implementadas (v9)
+
+1. **Histórico por día**: cada ejecución guarda `data/historico/AAAA-MM-DD.json` con la fecha, el total de promociones, la cantidad por tipo y las promociones. Cuando ya hay más de un día guardado, al final se muestra una tabla comparando cómo cambió la cantidad por tipo día a día.
+2. **Carga sin timeouts**: se eliminó el error `Waiting failed: 30000ms exceeded`. Ahora la página se consulta cada 2 segundos hasta que aparecen las tarjetas de promociones (máx. 60s) y la carga se reintenta hasta 3 veces, lo que tolera sitios lentos o con estructura cambiante.
+3. **Filtro de términos reforzado**: se descartan textos que parecen menús de navegación de las tiendas (Celulares, Lanzamientos, Hogar, etc.) o productos con unidades (5 Kg, 700 Rpm, GB), quedando solo términos y condiciones reales.
+4. **Pruebas ampliadas**: `npm test` corre 7 pruebas, incluida la de registro y lectura del histórico por día.
 
 ## Mejoras implementadas (v8)
 

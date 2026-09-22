@@ -24,6 +24,7 @@ Repositorio: https://github.com/MaximoPosse/mercadopago-scraper
    - data/resumen.json (estadísticas por tipo)
    - data/cambios.json (nuevas y eliminadas)
    - data/reporte.json (estadísticas de ejecución)
+   - data/historico/ (histórico por día, un JSON por fecha)
 
    Durante npm install Puppeteer descarga automáticamente el navegador Chrome
    que necesita para ejecutar el scraper.
@@ -67,6 +68,7 @@ con el esquema pedido en la consigna del trabajo:
 - utils/exportarCsv.js - Export CSV
 - utils/generarResumen.js - Resumen y cambios
 - utils/parsearVigencia.js - Parseo de fechas
+- utils/historico.js - Histórico por día
 - test/utils.test.js - Pruebas automáticas de las utilidades
 - utils/logger.js - Sistema de logs a archivo
 - data/promociones.json - Archivo de salida principal
@@ -75,6 +77,7 @@ con el esquema pedido en la consigna del trabajo:
 - data/resumen.json - Estadísticas por tipo
 - data/cambios.json - Promociones nuevas y eliminadas
 - data/reporte.json - Reporte de ejecución
+- data/historico/ - Histórico por día
 
 ## Mejoras de esta versión
 
@@ -144,6 +147,24 @@ con el esquema pedido en la consigna del trabajo:
 4. La instalación descarga automáticamente Chrome para Puppeteer.
 5. Si la página deja de devolver promociones, el scraper lanza un aviso claro
    para indicar que probablemente cambió la estructura del sitio.
+
+## Mejoras de la versión 9
+
+1. Histórico por día: cada ejecución guarda data/historico/AAAA-MM-DD.json
+   con la fecha, el total de promociones, la cantidad por tipo y las
+   promociones. Con más de un día guardado se muestra una tabla comparando
+   la evolución por tipo día a día.
+
+2. Carga sin timeouts: se corrigió el error "Waiting failed: 30000ms
+   exceeded". La página se consulta cada 2 segundos hasta que aparecen las
+   tarjetas de promociones (máx. 60s) y la carga se reintenta hasta 3 veces.
+
+3. Filtro de términos reforzado: se descartan textos que parecen menús de
+   navegación de las tiendas o productos con unidades (Kg, Rpm, GB),
+   quedando solo términos y condiciones reales.
+
+4. Pruebas ampliadas: npm test ejecuta 7 pruebas, incluida la del histórico
+   por día.
 
 ## Comentarios
 

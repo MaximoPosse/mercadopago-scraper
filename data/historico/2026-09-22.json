@@ -1,0 +1,95 @@
+{
+  "fecha": "2026-09-22",
+  "total": 12,
+  "por_tipo": {
+    "descuento": 7,
+    "2x1": 2,
+    "cuotas sin interés": 3
+  },
+  "promociones": [
+    {
+      "comercio": "MERCADO LIBRE",
+      "beneficio": "Hasta 45% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/mercado-libre-%f0%9f%94%a5/"
+    },
+    {
+      "comercio": "Farmacity",
+      "beneficio": "2x1",
+      "tipo_promocion": "2x1",
+      "vigencia": "Válido del 13 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/farmacity/"
+    },
+    {
+      "comercio": "Aerolíneas Argentinas",
+      "beneficio": "Hasta 20% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 14 al 17 de mayo. Tope de reintegro $30.000. Aplica a vuelos desde el 21/05 al 30/06 y desde el 01/08 al 30/11",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/aerolineas-argentinas/"
+    },
+    {
+      "comercio": "MOVISTAR",
+      "beneficio": null,
+      "tipo_promocion": "cuotas sin interés",
+      "vigencia": "Válido del 11 al 17 de mayo. Consultar artículos seleccionados.",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/movistar/"
+    },
+    {
+      "comercio": "DESPEGAR",
+      "beneficio": "Hasta 15% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 11 al 17 de mayo. Consultar bases y condiciones en el sitio online de Despegar.",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/despegar-2/"
+    },
+    {
+      "comercio": "OnCity",
+      "beneficio": null,
+      "tipo_promocion": "cuotas sin interés",
+      "vigencia": "Válido del 11 al 17 de mayo en artículos seleccionados.",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/oncity/"
+    },
+    {
+      "comercio": "SONY",
+      "beneficio": "Hasta 61% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/sony/"
+    },
+    {
+      "comercio": "COMPRA GAMER",
+      "beneficio": "20% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/compra-gamer/"
+    },
+    {
+      "comercio": "FARMAONLINE",
+      "beneficio": "2x1",
+      "tipo_promocion": "2x1",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/farmaonline/"
+    },
+    {
+      "comercio": "LA PARFUMERIE",
+      "beneficio": null,
+      "tipo_promocion": "cuotas sin interés",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/parfumerie/"
+    },
+    {
+      "comercio": "Turismocity",
+      "beneficio": "Hasta 50% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/turismocity/"
+    },
+    {
+      "comercio": "Lenovo",
+      "beneficio": "Hasta 48% OFF",
+      "tipo_promocion": "descuento",
+      "vigencia": "Válido del 11 al 17 de mayo",
+      "url_promocion": "https://promociones.mercadopago.com.ar/seller/lenovo/"
+    }
+  ]
+}

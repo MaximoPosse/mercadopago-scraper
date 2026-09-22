@@ -1,9 +1,13 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
+const os = require('node:os');
+const fs = require('node:fs');
+const path = require('node:path');
 const { detectarTipoPromocion } = require('../scraperPromociones');
 const { exportarCsv } = require('../utils/exportarCsv');
 const { generarCambios, generarResumen } = require('../utils/generarResumen');
+const { registrarHistorico, leerHistorico } = require('../utils/historico');
 const { limpiarTexto } = require('../utils/limpiarTexto');
 const { parsearVigencia } = require('../utils/parsearVigencia');
 
@@ -58,6 +62,22 @@ test('genera resumen y detecta promociones nuevas y eliminadas', () => {
   });
   assert.equal(generarCambios(anteriores, actuales).nuevas[0].url_promocion, 'url-b');
   assert.equal(generarCambios(actuales, anteriores).eliminadas[0].url_promocion, 'url-b');
+});
+
+test('registra y lee el historico por dia', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'historico-'));
+  const proms = [{ comercio: 'A', beneficio: '20% OFF', tipo_promocion: 'descuento', vigencia: '', url_promocion: 'url-a' }];
+
+  const archivo = registrarHistorico(proms, dir);
+  const historico = leerHistorico(dir);
+
+  assert.match(path.basename(archivo), /^\d{4}-\d{2}-\d{2}\.json$/);
+  assert.ok(fs.existsSync(archivo));
+  assert.equal(historico.length, 1);
+  assert.equal(historico[0].total, 1);
+  assert.deepEqual(historico[0].por_tipo, { descuento: 1 });
+
+  fs.rmSync(dir, { recursive: true, force: true });
 });
 
 test('escapa comas y comillas en el CSV', () => {

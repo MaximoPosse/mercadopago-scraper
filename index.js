@@ -6,10 +6,12 @@ const { log, error: logError } = require('./utils/logger');
 const { exportarProductos } = require('./utils/exportarProductos');
 const { exportarCsv } = require('./utils/exportarCsv');
 const { generarResumen, generarCambios } = require('./utils/generarResumen');
+const { registrarHistorico, leerHistorico } = require('./utils/historico');
 const { parsearVigencia } = require('./utils/parsearVigencia');
 const { limpiarTexto } = require('./utils/limpiarTexto');
 
 const DATA_DIR = path.join(__dirname, 'data');
+const HISTORICO_DIR = path.join(DATA_DIR, 'historico');
 const URL = 'https://promociones.mercadopago.com.ar/';
 const CARD_SELECTOR = '.kiyo__cards--col, .promotion-card, article';
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -277,6 +279,9 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const reportePath = path.join(DATA_DIR, 'reporte.json');
     fs.writeFileSync(reportePath, JSON.stringify(stats, null, 2));
 
+    const historicoPath = registrarHistorico(resultados, HISTORICO_DIR);
+    console.log(`Histórico guardado en: ${historicoPath}`);
+
     console.log(`\nProceso finalizado.`);
     console.log(`Total procesadas: ${resultados.length}`);
     console.log(`Errores: ${errores}`);
@@ -284,6 +289,17 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     Object.entries(resumen.por_tipo).forEach(([tipo, cant]) => {
       console.log(`  ${tipo}: ${cant}`);
     });
+
+    const historico = leerHistorico(HISTORICO_DIR);
+    if (historico.length > 1) {
+      console.log(`\nHistórico por día:`);
+      const tipos = [...new Set(historico.flatMap((h) => Object.keys(h.por_tipo)))].sort();
+      console.log(`  fecha        total  ${tipos.join('   ')}`);
+      historico.forEach((h) => {
+        const celdas = tipos.map((t) => String(h.por_tipo[t] || 0).padStart(t.length));
+        console.log(`  ${h.fecha}  ${String(h.total).padEnd(5)}  ${celdas.join('   ')}`);
+      });
+    }
     console.log(`\nDatos guardados en: ${outputPath}`);
     console.log(`Export estándar guardado en: ${productosPath}`);
     console.log(`Export CSV guardado en: ${csvPath}`);

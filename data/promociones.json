@@ -1,6 +1,6 @@
 [
   {
-    "comercio": "MERCADO LIBRE 🔥",
+    "comercio": "MERCADO LIBRE",
     "beneficio": "Hasta 45% OFF",
     "tipo_promocion": "descuento",
     "descripcion": "¡Aprovechá Hasta 45% OFF y Hasta 18 cuotas sin interés en Mercado Libre!",
@@ -28,9 +28,9 @@
     "bancos": [],
     "marcas": [],
     "sucursales": [],
-    "terminos_condiciones": "Explorá nuestras categorías elegidas Nyx ¡Exclusivo! Mes de la piel Bienestar Sexual Cuidado Personal ¡Re Stockeate! Mundo Bebé ¡Hasta -55%! Mascaras de Pestañas ¡Hasta 45%! Labiales Bases & Correctores ¡Hasta 50%! Limpieza y Desinfección Papeles y Pañuelitos ¡Temporada!",
+    "terminos_condiciones": "Promociones bancarias para ahorrar más Los reintegros los verás en tu cuenta bancaria. Conocé mas en bases y condiciones.",
     "imagen": "https://promociones.mercadopago.com.ar/wp-content/uploads/2025/05/Logo-FarmacityCom-600x600-2.jpg",
-    "imagen_condiciones": "https://farmacityar.vtexassets.com/assets/vtex.file-manager-graphql/images/28721136-d7f3-465b-8bf7-4a09b28bb545___405575d01f8ea2e6ba37e9858efff05d.webp",
+    "imagen_condiciones": "https://farmacityar.vtexassets.com/assets/vtex.file-manager-graphql/images/3196ce1f-98c6-4b61-b1cc-61735e834aa4___652c1f59729579c82cc90b78fdc96dd8.png",
     "url_promocion": "https://promociones.mercadopago.com.ar/seller/farmacity/"
   },
   {

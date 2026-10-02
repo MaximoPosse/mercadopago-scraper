@@ -6,6 +6,7 @@ const { log, error: logError } = require('./utils/logger');
 const { exportarProductos } = require('./utils/exportarProductos');
 const { exportarCsv } = require('./utils/exportarCsv');
 const { generarResumen, generarCambios } = require('./utils/generarResumen');
+const { generarReporteHtml } = require('./utils/generarReporteHtml');
 const { registrarHistorico, leerHistorico } = require('./utils/historico');
 const { parsearVigencia } = require('./utils/parsearVigencia');
 const { limpiarTexto } = require('./utils/limpiarTexto');
@@ -281,6 +282,10 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const historicoPath = registrarHistorico(resultados, HISTORICO_DIR);
     console.log(`Histórico guardado en: ${historicoPath}`);
+
+    const reporteHtmlPath = path.join(DATA_DIR, 'ver-reporte.html');
+    fs.writeFileSync(reporteHtmlPath, generarReporteHtml(resultados), 'utf8');
+    console.log(`Reporte HTML guardado en: ${reporteHtmlPath}`);
 
     console.log(`\nProceso finalizado.`);
     console.log(`Total procesadas: ${resultados.length}`);

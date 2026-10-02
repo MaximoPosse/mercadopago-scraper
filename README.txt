@@ -25,6 +25,7 @@ Repositorio: https://github.com/MaximoPosse/mercadopago-scraper
    - data/cambios.json (nuevas y eliminadas)
    - data/reporte.json (estadísticas de ejecución)
    - data/historico/ (histórico por día, un JSON por fecha)
+   - data/ver-reporte.html (reporte visual para abrir en el navegador)
 
    Durante npm install Puppeteer descarga automáticamente el navegador Chrome
    que necesita para ejecutar el scraper.
@@ -69,6 +70,7 @@ con el esquema pedido en la consigna del trabajo:
 - utils/generarResumen.js - Resumen y cambios
 - utils/parsearVigencia.js - Parseo de fechas
 - utils/historico.js - Histórico por día
+- utils/generarReporteHtml.js - Reporte HTML visual
 - test/utils.test.js - Pruebas automáticas de las utilidades
 - utils/logger.js - Sistema de logs a archivo
 - data/promociones.json - Archivo de salida principal
@@ -78,6 +80,7 @@ con el esquema pedido en la consigna del trabajo:
 - data/cambios.json - Promociones nuevas y eliminadas
 - data/reporte.json - Reporte de ejecución
 - data/historico/ - Histórico por día
+- data/ver-reporte.html - Reporte HTML visual
 
 ## Mejoras de esta versión
 
@@ -165,6 +168,17 @@ con el esquema pedido en la consigna del trabajo:
 
 4. Pruebas ampliadas: npm test ejecuta 7 pruebas, incluida la del histórico
    por día.
+
+## Mejoras de la versión 10
+
+1. Reporte HTML visual: cada ejecución genera data/ver-reporte.html, un
+   archivo autocontenido (HTML, CSS y JS sin librerías externas) que muestra
+   las promociones en tarjetas con imagen, beneficio, tipo, vigencia y
+   términos, más gráficos de barras por tipo de promoción y por comercio.
+   Se abre con doble clic en cualquier navegador, incluso sin internet.
+
+2. Pruebas ampliadas: npm test ejecuta 8 pruebas, incluida la de generación
+   del reporte HTML.
 
 ## Comentarios
 

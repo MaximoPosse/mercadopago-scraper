@@ -39,6 +39,7 @@ npm test
 - `data/cambios.json` — Detalle de promociones nuevas y eliminadas vs. ejecución anterior
 - `data/reporte.json` — Estadísticas de la ejecución
 - `data/historico/` — Histórico por día (un JSON por fecha con el estado de las promociones)
+- `data/ver-reporte.html` — Reporte visual autocontenido (se abre en cualquier navegador, no necesita internet)
 - `logs/scraper.log` — Log detallado con timestamps
 
 ## Estructura del proyecto
@@ -51,6 +52,7 @@ npm test
 - `utils/generarResumen.js` — Calcula resumen estadístico y cambios entre ejecuciones.
 - `utils/parsearVigencia.js` — Extrae fechas desde el texto de vigencia.
 - `utils/historico.js` — Guarda y lee el histórico por día.
+- `utils/generarReporteHtml.js` — Genera el reporte HTML visual.
 - `test/utils.test.js` — Pruebas automáticas de las utilidades del proyecto.
 - `utils/logger.js` — Módulo de logging que escribe en `logs/scraper.log` con timestamp.
 - `data/promociones.json` — Archivo de salida con todas las promociones.
@@ -84,6 +86,11 @@ npm test
 3. **Cambios detallados**: genera `data/cambios.json` con listas de promociones nuevas y eliminadas (comercio, beneficio, vigencia, URL).
 4. **Parseo de vigencia**: extrae `vigencia_desde` y `vigencia_hasta` desde textos como "Válido del 11 al 17 de mayo".
 5. **Filtro de términos**: descarta textos de T&C que parecen páginas embebidas (muchas menciones de precios) y limita textos muy largos.
+
+## Mejoras implementadas (v10)
+
+1. **Reporte HTML visual**: cada ejecución genera `data/ver-reporte.html`, un archivo autocontenido (solo HTML/CSS/JS, sin librerías externas) que muestra las promociones en tarjetas con imagen, beneficio, tipo, vigencia y T&C, además de gráficos de barras por tipo y por comercio. Se abre con doble clic en cualquier navegador, incluso sin conexión.
+2. **Pruebas ampliadas**: `npm test` corre 8 pruebas, incluida la de generación del reporte HTML.
 
 ## Mejoras implementadas (v9)
 

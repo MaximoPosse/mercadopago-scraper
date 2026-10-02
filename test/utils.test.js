@@ -7,6 +7,7 @@ const path = require('node:path');
 const { detectarTipoPromocion } = require('../scraperPromociones');
 const { exportarCsv } = require('../utils/exportarCsv');
 const { generarCambios, generarResumen } = require('../utils/generarResumen');
+const { generarReporteHtml } = require('../utils/generarReporteHtml');
 const { registrarHistorico, leerHistorico } = require('../utils/historico');
 const { limpiarTexto } = require('../utils/limpiarTexto');
 const { parsearVigencia } = require('../utils/parsearVigencia');
@@ -78,6 +79,23 @@ test('registra y lee el historico por dia', () => {
   assert.deepEqual(historico[0].por_tipo, { descuento: 1 });
 
   fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('genera el reporte html con las promociones', () => {
+  const html = generarReporteHtml([{
+    comercio: 'Farmacity',
+    beneficio: '2x1',
+    tipo_promocion: '2x1',
+    vigencia: 'Válido hasta el 30 de junio',
+    descripcion: 'En perfumería',
+    terminos_condiciones: 'Aplican\ncondiciones',
+    imagen: null,
+    url_promocion: 'https://ejemplo.com',
+  }]);
+
+  assert.match(html, /<!DOCTYPE html>/);
+  assert.match(html, /Farmacity/);
+  assert.match(html, /Aplican\\ncondiciones/);
 });
 
 test('escapa comas y comillas en el CSV', () => {

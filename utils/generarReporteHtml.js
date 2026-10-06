@@ -4,12 +4,13 @@ function escaparJson(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c');
 }
 
-function generarReporteHtml(promociones) {
+function generarReporteHtml(promociones, historico = []) {
   const resumen = generarResumen(promociones);
   const datos = {
     generado: new Date().toISOString(),
     total_comercios: new Set(promociones.map((p) => p.comercio)).size,
     resumen,
+    historico,
     promociones: promociones.map((p) => ({
       comercio: p.comercio,
       beneficio: p.beneficio,
@@ -82,7 +83,7 @@ function generarReporteHtml(promociones) {
     <section class="stats" id="stats"></section>
     <section class="graficos">
       <div class="panel"><h2>Promociones por tipo</h2><div id="graficoTipo"></div></div>
-      <div class="panel"><h2>Comercios con más promos</h2><div id="graficoComercio"></div></div>
+      <div class="panel"><h2>Promociones por día (histórico)</h2><div id="graficoHistorico"></div></div>
     </section>
     <h2 class="seccion">Promociones <span id="totalPromos"></span></h2>
     <section class="tarjetas" id="tarjetas"></section>
@@ -134,11 +135,20 @@ function generarReporteHtml(promociones) {
     (i) => colorTipo(i.n)
   );
 
-  pintarBarras(
-    document.getElementById('graficoComercio'),
-    DATA.resumen.comercios_top.map(c => ({ n: c.comercio, v: c.cantidad })),
-    () => 'var(--azul)'
-  );
+  const graficoHistorico = document.getElementById('graficoHistorico');
+  if (DATA.historico.length > 1) {
+    pintarBarras(
+      graficoHistorico,
+      DATA.historico.map(h => ({ n: h.fecha.slice(0, 10), v: h.total })),
+      (i) => 'var(--verde)'
+    );
+  } else {
+    graficoHistorico.innerHTML = '<div class="descripcion">' +
+      (DATA.historico.length === 1
+        ? 'Es el primer día registrado, corré el scraper varios días para ver la evolución.'
+        : 'Aún no hay datos históricos, corré el scraper para empezar a sumar días.') +
+      '</div>';
+  }
 
   document.getElementById('totalPromos').textContent =
     '· ' + DATA.promociones.length + ' activas';

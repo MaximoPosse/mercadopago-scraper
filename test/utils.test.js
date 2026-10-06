@@ -100,6 +100,25 @@ test('genera el reporte html con las promociones', () => {
   assert.match(html, /Aplican\\ncondiciones/);
 });
 
+test('incluye el gráfico de promos por día en el reporte', () => {
+  const html = generarReporteHtml(
+    [{
+      comercio: 'Farmacity',
+      beneficio: '2x1',
+      tipo_promocion: '2x1',
+      vigencia: 'Válido hasta el 30 de junio',
+      descripcion: 'En perfumería',
+      terminos_condiciones: 'Aplican\ncondiciones',
+      imagen: null,
+      url_promocion: 'https://ejemplo.com',
+    }],
+    [{ fecha: '2026-10-05', total: 12, por_tipo: {} }, { fecha: '2026-10-06', total: 13, por_tipo: {} }]
+  );
+
+  assert.equal(html.includes('graficoHistorico'), true);
+  assert.equal(html.includes('2026-10-05'), true);
+});
+
 test('arma la estructura de sucursales', () => {
   const seccion = { haySeccion: false, enlaces: [] };
   const s = armarSucursales([], 'https://promociones.mercadopago.com.ar/', seccion);

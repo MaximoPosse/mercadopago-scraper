@@ -323,8 +323,10 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const historicoPath = registrarHistorico(resultados, HISTORICO_DIR);
     console.log(`Histórico guardado en: ${historicoPath}`);
 
+    const historico = leerHistorico(HISTORICO_DIR);
+
     const reporteHtmlPath = path.join(DATA_DIR, 'ver-reporte.html');
-    fs.writeFileSync(reporteHtmlPath, generarReporteHtml(resultados), 'utf8');
+    fs.writeFileSync(reporteHtmlPath, generarReporteHtml(resultados, historico), 'utf8');
     console.log(`Reporte HTML guardado en: ${reporteHtmlPath}`);
 
     const seccionSuc = await detectarSeccionSucursales(page);
@@ -344,7 +346,6 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       console.log(`  ${tipo}: ${cant}`);
     });
 
-    const historico = leerHistorico(HISTORICO_DIR);
     if (historico.length > 1) {
       console.log(`\nHistórico por día:`);
       const tipos = [...new Set(historico.flatMap((h) => Object.keys(h.por_tipo)))].sort();

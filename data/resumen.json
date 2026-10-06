@@ -1,11 +1,16 @@
 {
-  "total": 12,
+  "total": 13,
   "por_tipo": {
+    "sin clasificar": 1,
     "descuento": 7,
     "2x1": 2,
     "cuotas sin interés": 3
   },
   "comercios_top": [
+    {
+      "comercio": "Mercado Pago",
+      "cantidad": 1
+    },
     {
       "comercio": "MERCADO LIBRE",
       "cantidad": 1
@@ -40,10 +45,6 @@
     },
     {
       "comercio": "FARMAONLINE",
-      "cantidad": 1
-    },
-    {
-      "comercio": "LA PARFUMERIE",
       "cantidad": 1
     }
   ]

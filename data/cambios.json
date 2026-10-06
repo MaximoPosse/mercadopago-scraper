@@ -1,4 +1,12 @@
 {
-  "nuevas": [],
+  "nuevas": [
+    {
+      "comercio": "Mercado Pago",
+      "beneficio": "Aprovechá los descuentos pagando con Mercado Pago",
+      "tipo_promocion": null,
+      "vigencia": null,
+      "url_promocion": null
+    }
+  ],
   "eliminadas": []
 }

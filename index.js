@@ -134,10 +134,36 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     console.log(`\nPromociones encontradas en la página principal: ${promocionesBase.length}`);
 
+    const heroMP = await page.evaluate(() => {
+      const enc = (el) => (el?.innerText || '').replace(/\s+/g, ' ').trim();
+      const encabezados = [...document.querySelectorAll('h2, h3')];
+      const titulo = encabezados.find((e) => /mercado\s*pago/i.test(enc(e)));
+      const sub = encabezados.find((e) => /(pagar|pague|pagués|pagando).*mercado\s*pago/i.test(enc(e)));
+      return {
+        titulo: enc(titulo),
+        sub: enc(sub),
+      };
+    });
+
+    const tieneMP = promocionesBase.some((p) => /mercado\s*pago/i.test(p.comercio || ''));
+    if (!tieneMP && (heroMP.sub || heroMP.titulo)) {
+      promocionesBase.unshift({
+        comercio: 'Mercado Pago',
+        beneficio: limpiarTexto(heroMP.sub) || limpiarTexto(heroMP.titulo),
+        cuotas: null,
+        imagen: null,
+        descripcion: limpiarTexto(heroMP.titulo),
+        vigencia: null,
+        url_promocion: null,
+      });
+      console.log('Agregada la promoción de Mercado Pago (sección destacada del sitio).');
+    }
+
     const seen = new Map();
     promocionesBase.forEach(p => {
-      if (p.url_promocion && !seen.has(p.url_promocion)) {
-        seen.set(p.url_promocion, p);
+      const clave = p.url_promocion || `${p.comercio}|${p.beneficio}`;
+      if (!seen.has(clave)) {
+        seen.set(clave, p);
       }
     });
     const promocionesUnicas = [...seen.values()];
@@ -162,20 +188,25 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       let detalle;
       let exito = false;
 
-      for (let intento = 1; intento <= MAX_INTENTOS; intento++) {
-        try {
-          detalle = await scrapeDetallePromocion(page, promo.url_promocion);
-          exito = true;
-          break;
-        } catch (error) {
-          if (intento < MAX_INTENTOS) {
-            log(`  ⚠ Intento ${intento}/${MAX_INTENTOS} falló, reintentando...`);
-            await sleep(intento * 2000);
-          } else {
-            errores++;
-            logError(`  ✗ Error en ${nombre} tras ${MAX_INTENTOS} intentos: ${error.message}`);
+      if (promo.url_promocion) {
+        for (let intento = 1; intento <= MAX_INTENTOS; intento++) {
+          try {
+            detalle = await scrapeDetallePromocion(page, promo.url_promocion);
+            exito = true;
+            break;
+          } catch (error) {
+            if (intento < MAX_INTENTOS) {
+              log(`  ⚠ Intento ${intento}/${MAX_INTENTOS} falló, reintentando...`);
+              await sleep(intento * 2000);
+            } else {
+              errores++;
+              logError(`  ✗ Error en ${nombre} tras ${MAX_INTENTOS} intentos: ${error.message}`);
+            }
           }
         }
+      } else {
+        detalle = {};
+        exito = true;
       }
 
       if (exito) {

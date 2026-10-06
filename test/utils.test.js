@@ -15,6 +15,7 @@ const { parsearVigencia } = require('../utils/parsearVigencia');
 test('limpia saltos de linea y espacios repetidos', () => {
   assert.equal(limpiarTexto('  Oferta\n especial   hoy  '), 'Oferta especial hoy');
   assert.equal(limpiarTexto(''), null);
+  assert.equal(limpiarTexto('MERCADO LIBRE \u{1F525}'), 'MERCADO LIBRE');
 });
 
 test('clasifica tipos de promociones conocidos', () => {

@@ -87,6 +87,12 @@ npm test
 4. **Parseo de vigencia**: extrae `vigencia_desde` y `vigencia_hasta` desde textos como "Válido del 11 al 17 de mayo".
 5. **Filtro de términos**: descarta textos de T&C que parecen páginas embebidas (muchas menciones de precios) y limita textos muy largos.
 
+## Mejoras implementadas (v11)
+
+1. **Emojis eliminados**: todos los textos se limpian de emojis (el comercio "MERCADO LIBRE 🔥" ahora se guarda como "MERCADO LIBRE").
+2. **Promoción Mercado Pago**: si el sitio muestra la sección destacada "Mercado Pago" (banner con descuentos pagando con Mercado Pago) y no hay ninguna tarjeta con ese comercio, se agrega como promoción al listado.
+3. **Manejo de promociones sin enlace**: las promociones que no tienen URL (como el banner de Mercado Pago) ya no intentan abrir una página de detalle y se guardan con los datos disponibles.
+
 ## Mejoras implementadas (v10)
 
 1. **Reporte HTML visual**: cada ejecución genera `data/ver-reporte.html`, un archivo autocontenido (solo HTML/CSS/JS, sin librerías externas) que muestra las promociones en tarjetas con imagen, beneficio, tipo, vigencia y T&C, además de gráficos de barras por tipo y por comercio. Se abre con doble clic en cualquier navegador, incluso sin conexión.

@@ -1,5 +1,15 @@
 [
   {
+    "nombre": "Mercado Pago - Aprovechá los descuentos pagando con Mercado Pago",
+    "precio": null,
+    "precio_descuento": null,
+    "imagen": null,
+    "código": null,
+    "descripción": "LOS MEJORES DESCUENTOS EN HOT SALE CON MERCADO PAGO",
+    "condiciones": null,
+    "url_producto": null
+  },
+  {
     "nombre": "MERCADO LIBRE - Hasta 45% OFF",
     "precio": null,
     "precio_descuento": null,

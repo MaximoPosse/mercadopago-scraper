@@ -1,14 +1,15 @@
 {
-  "fecha_ejecucion": "2026-10-02T01:13:55.218Z",
-  "duracion_segundos": 79.19,
-  "promociones_encontradas": 12,
-  "promociones_procesadas_ok": 12,
+  "fecha_ejecucion": "2026-10-06T11:25:18.684Z",
+  "duracion_segundos": 102.99,
+  "promociones_encontradas": 13,
+  "promociones_procesadas_ok": 13,
   "promociones_con_error": 0,
   "promociones_duplicadas": 0,
-  "total_guardadas": 12,
-  "promociones_agregadas": 0,
+  "total_guardadas": 13,
+  "promociones_agregadas": 1,
   "promociones_eliminadas": 0,
   "resumen_por_tipo": {
+    "sin clasificar": 1,
     "descuento": 7,
     "2x1": 2,
     "cuotas sin interés": 3

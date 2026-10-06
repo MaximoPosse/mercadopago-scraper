@@ -1,5 +1,16 @@
 [
   {
+    "comercio": "Mercado Pago",
+    "beneficio": "Aprovechá los descuentos pagando con Mercado Pago",
+    "tipo_promocion": null,
+    "descripcion": "LOS MEJORES DESCUENTOS EN HOT SALE CON MERCADO PAGO",
+    "vigencia": null,
+    "vigencia_desde": null,
+    "vigencia_hasta": null,
+    "imagen": null,
+    "url_promocion": null
+  },
+  {
     "comercio": "MERCADO LIBRE",
     "beneficio": "Hasta 45% OFF",
     "tipo_promocion": "descuento",
@@ -30,7 +41,7 @@
     "sucursales": [],
     "terminos_condiciones": "Promociones bancarias para ahorrar más Los reintegros los verás en tu cuenta bancaria. Conocé mas en bases y condiciones.",
     "imagen": "https://promociones.mercadopago.com.ar/wp-content/uploads/2025/05/Logo-FarmacityCom-600x600-2.jpg",
-    "imagen_condiciones": "https://farmacityar.vtexassets.com/assets/vtex.file-manager-graphql/images/6031f8af-508b-471e-8480-b429bc94ffc7___15c0acf7c48ec1db5c81de8b49ee7814.webp",
+    "imagen_condiciones": "https://farmacityar.vtexassets.com/assets/vtex.file-manager-graphql/images/3196ce1f-98c6-4b61-b1cc-61735e834aa4___652c1f59729579c82cc90b78fdc96dd8.png",
     "url_promocion": "https://promociones.mercadopago.com.ar/seller/farmacity/"
   },
   {

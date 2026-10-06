@@ -180,6 +180,18 @@ con el esquema pedido en la consigna del trabajo:
 2. Pruebas ampliadas: npm test ejecuta 8 pruebas, incluida la de generación
    del reporte HTML.
 
+## Mejoras de la versión 11
+
+1. Emojis eliminados: todos los textos se limpian de emojis ("MERCADO LIBRE
+   con fueguito" queda como "MERCADO LIBRE").
+
+2. Promoción Mercado Pago: si el sitio muestra la sección destacada de
+   Mercado Pago (descuentos pagando con Mercado Pago), se agrega como una
+   promoción más al listado.
+
+3. Promociones sin enlace: las que no tienen URL se guardan con los datos
+   disponibles sin intentar abrir una página de detalle.
+
 ## Comentarios
 
 - Mercado Pago no es un supermercado con productos y precios individuales;

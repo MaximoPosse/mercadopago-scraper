@@ -8,6 +8,7 @@ const { detectarTipoPromocion } = require('../scraperPromociones');
 const { exportarCsv } = require('../utils/exportarCsv');
 const { generarCambios, generarResumen } = require('../utils/generarResumen');
 const { generarReporteHtml } = require('../utils/generarReporteHtml');
+const { armarSucursales } = require('../utils/sucursales');
 const { registrarHistorico, leerHistorico } = require('../utils/historico');
 const { limpiarTexto } = require('../utils/limpiarTexto');
 const { parsearVigencia } = require('../utils/parsearVigencia');
@@ -97,6 +98,15 @@ test('genera el reporte html con las promociones', () => {
   assert.match(html, /<!DOCTYPE html>/);
   assert.match(html, /Farmacity/);
   assert.match(html, /Aplican\\ncondiciones/);
+});
+
+test('arma la estructura de sucursales', () => {
+  const seccion = { haySeccion: false, enlaces: [] };
+  const s = armarSucursales([], 'https://promociones.mercadopago.com.ar/', seccion);
+
+  assert.equal(s.sitio.includes('mercadopago'), true);
+  assert.deepEqual(s.sucursales, []);
+  assert.equal(s.seccion_sucursales, 'No publicada por el sitio');
 });
 
 test('escapa comas y comillas en el CSV', () => {

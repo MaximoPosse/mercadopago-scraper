@@ -26,6 +26,7 @@ Repositorio: https://github.com/MaximoPosse/mercadopago-scraper
    - data/reporte.json (estadísticas de ejecución)
    - data/historico/ (histórico por día, un JSON por fecha)
    - data/ver-reporte.html (reporte visual para abrir en el navegador)
+   - data/sucursales.json (sucursales del sitio)
 
    Durante npm install Puppeteer descarga automáticamente el navegador Chrome
    que necesita para ejecutar el scraper.
@@ -71,6 +72,7 @@ con el esquema pedido en la consigna del trabajo:
 - utils/parsearVigencia.js - Parseo de fechas
 - utils/historico.js - Histórico por día
 - utils/generarReporteHtml.js - Reporte HTML visual
+- utils/sucursales.js - Sucursales del sitio
 - test/utils.test.js - Pruebas automáticas de las utilidades
 - utils/logger.js - Sistema de logs a archivo
 - data/promociones.json - Archivo de salida principal
@@ -81,6 +83,7 @@ con el esquema pedido en la consigna del trabajo:
 - data/reporte.json - Reporte de ejecución
 - data/historico/ - Histórico por día
 - data/ver-reporte.html - Reporte HTML visual
+- data/sucursales.json - Sucursales del sitio
 
 ## Mejoras de esta versión
 
@@ -191,6 +194,16 @@ con el esquema pedido en la consigna del trabajo:
 
 3. Promociones sin enlace: las que no tienen URL se guardan con los datos
    disponibles sin intentar abrir una página de detalle.
+
+## Mejoras de la versión 12
+
+1. Sucursales: se genera data/sucursales.json con la estructura pedida
+   (horarios, dirección, teléfono, coordenadas). El scraper busca una
+   sección de sucursales en el sitio; como Mercado Pago es un medio de
+   pago digital, no publica sucursales físicas y el archivo queda con la
+   lista vacía más una nota aclarando el motivo.
+
+2. Pruebas ampliadas: npm test ejecuta 9 pruebas, incluida la de sucursales.
 
 ## Comentarios
 

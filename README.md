@@ -40,6 +40,7 @@ npm test
 - `data/reporte.json` — Estadísticas de la ejecución
 - `data/historico/` — Histórico por día (un JSON por fecha con el estado de las promociones)
 - `data/ver-reporte.html` — Reporte visual autocontenido (se abre en cualquier navegador, no necesita internet)
+- `data/sucursales.json` — Sucursales del sitio (Mercado Pago no publica sucursales físicas, queda documentado)
 - `logs/scraper.log` — Log detallado con timestamps
 
 ## Estructura del proyecto
@@ -53,6 +54,7 @@ npm test
 - `utils/parsearVigencia.js` — Extrae fechas desde el texto de vigencia.
 - `utils/historico.js` — Guarda y lee el histórico por día.
 - `utils/generarReporteHtml.js` — Genera el reporte HTML visual.
+- `utils/sucursales.js` — Detecta la sección de sucursales del sitio y arma `sucursales.json`.
 - `test/utils.test.js` — Pruebas automáticas de las utilidades del proyecto.
 - `utils/logger.js` — Módulo de logging que escribe en `logs/scraper.log` con timestamp.
 - `data/promociones.json` — Archivo de salida con todas las promociones.
@@ -86,6 +88,11 @@ npm test
 3. **Cambios detallados**: genera `data/cambios.json` con listas de promociones nuevas y eliminadas (comercio, beneficio, vigencia, URL).
 4. **Parseo de vigencia**: extrae `vigencia_desde` y `vigencia_hasta` desde textos como "Válido del 11 al 17 de mayo".
 5. **Filtro de términos**: descarta textos de T&C que parecen páginas embebidas (muchas menciones de precios) y limita textos muy largos.
+
+## Mejoras implementadas (v12)
+
+1. **Sucursales**: se agregó `data/sucursales.json` con la estructura pedida en la consigna (horarios, dirección, teléfono, coordenadas). El scraper busca una sección de sucursales en el sitio; Mercado Pago es un medio de pago digital y no publica sucursales físicas, por lo que el archivo queda con la lista vacía y una nota explicando el motivo.
+2. **Pruebas ampliadas**: `npm test` corre 9 pruebas, incluida la de la estructura de sucursales.
 
 ## Mejoras implementadas (v11)
 

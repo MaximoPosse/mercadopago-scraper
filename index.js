@@ -8,6 +8,7 @@ const { exportarCsv } = require('./utils/exportarCsv');
 const { generarResumen, generarCambios } = require('./utils/generarResumen');
 const { generarReporteHtml } = require('./utils/generarReporteHtml');
 const { registrarHistorico, leerHistorico } = require('./utils/historico');
+const { detectarSeccionSucursales, armarSucursales } = require('./utils/sucursales');
 const { parsearVigencia } = require('./utils/parsearVigencia');
 const { limpiarTexto } = require('./utils/limpiarTexto');
 
@@ -325,6 +326,15 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const reporteHtmlPath = path.join(DATA_DIR, 'ver-reporte.html');
     fs.writeFileSync(reporteHtmlPath, generarReporteHtml(resultados), 'utf8');
     console.log(`Reporte HTML guardado en: ${reporteHtmlPath}`);
+
+    const seccionSuc = await detectarSeccionSucursales(page);
+    const sucursalesDePromos = resultados.flatMap((p) =>
+      Array.isArray(p.sucursales) && p.sucursales.length ? p.sucursales : []
+    );
+    const sucursales = armarSucursales(sucursalesDePromos, URL, seccionSuc);
+    const sucursalesPath = path.join(DATA_DIR, 'sucursales.json');
+    fs.writeFileSync(sucursalesPath, JSON.stringify(sucursales, null, 2));
+    console.log(`Sucursales guardadas en: ${sucursalesPath}`);
 
     console.log(`\nProceso finalizado.`);
     console.log(`Total procesadas: ${resultados.length}`);

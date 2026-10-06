@@ -1,13 +1,13 @@
 {
-  "fecha_ejecucion": "2026-10-06T11:43:48.742Z",
-  "duracion_segundos": 57.69,
+  "fecha_ejecucion": "2026-10-06T11:50:06.183Z",
+  "duracion_segundos": 58.94,
   "promociones_encontradas": 13,
   "promociones_procesadas_ok": 13,
   "promociones_con_error": 0,
   "promociones_duplicadas": 0,
   "total_guardadas": 13,
-  "promociones_agregadas": 1,
-  "promociones_eliminadas": 1,
+  "promociones_agregadas": 0,
+  "promociones_eliminadas": 0,
   "resumen_por_tipo": {
     "sin clasificar": 1,
     "descuento": 7,

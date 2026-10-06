@@ -161,7 +161,8 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         imagen: heroMP.logo,
         descripcion: limpiarTexto(heroMP.titulo),
         vigencia: null,
-        url_promocion: null,
+        url_promocion: 'https://promociones.mercadopago.com.ar/',
+        sintetica: true,
       });
       console.log('Agregada la promoción de Mercado Pago (sección destacada del sitio).');
     }
@@ -195,7 +196,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       let detalle;
       let exito = false;
 
-      if (promo.url_promocion) {
+      if (promo.url_promocion && !promo.sintetica) {
         for (let intento = 1; intento <= MAX_INTENTOS; intento++) {
           try {
             detalle = await scrapeDetallePromocion(page, promo.url_promocion);

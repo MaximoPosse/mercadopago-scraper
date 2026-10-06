@@ -1,4 +1,20 @@
 {
-  "nuevas": [],
-  "eliminadas": []
+  "nuevas": [
+    {
+      "comercio": "Mercado Pago",
+      "beneficio": "Aprovechá los descuentos pagando con Mercado Pago",
+      "tipo_promocion": null,
+      "vigencia": null,
+      "url_promocion": "https://promociones.mercadopago.com.ar/"
+    }
+  ],
+  "eliminadas": [
+    {
+      "comercio": "Mercado Pago",
+      "beneficio": "Aprovechá los descuentos pagando con Mercado Pago",
+      "tipo_promocion": null,
+      "vigencia": null,
+      "url_promocion": null
+    }
+  ]
 }

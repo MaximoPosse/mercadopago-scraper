@@ -4,10 +4,10 @@
     "precio": null,
     "precio_descuento": null,
     "imagen": "https://promociones.mercadopago.com.ar/wp-content/uploads/2023/04/logo-mp.svg",
-    "código": null,
+    "código": "https://promociones.mercadopago.com.ar/",
     "descripción": "LOS MEJORES DESCUENTOS EN HOT SALE CON MERCADO PAGO",
     "condiciones": null,
-    "url_producto": null
+    "url_producto": "https://promociones.mercadopago.com.ar/"
   },
   {
     "nombre": "MERCADO LIBRE - Hasta 45% OFF",
@@ -86,7 +86,7 @@
     "imagen": "https://promociones.mercadopago.com.ar/wp-content/uploads/2024/05/logo-CG-Juan.jpg",
     "código": "https://promociones.mercadopago.com.ar/seller/compra-gamer/",
     "descripción": "¡Aprovecha 20% OFF con Cuotas sin Tarjeta y hasta 3 cuotas sin interés en la tienda online!",
-    "condiciones": "Vigencia: Válido del 11 al 17 de mayo | Tipo: descuento",
+    "condiciones": "Vigencia: Válido del 11 al 17 de mayo | Tipo: descuento | 3 CUOTAS SIN INTERÉS Pagando con tarjeta de crédito de todos los bancos. Ver más promociones 3 CUOTAS SIN INTERÉS Pagando con tarjeta de crédito de todos los bancos. Ver más promociones 3 CUOTAS SIN INTERÉS Pagando en cuotas sin tarjeta. Ver más promociones 3, 6 y 9 CUOTAS SIN INTERÉS Pagando desde Ver más promociones 12 CUOTAS SIN INTERÉS Pagando desde Ver más promociones 3, 6, 9 y 12 CUOTAS SIN INTERÉS Pagando desde Ver más promociones HASTA 6 CUOTAS SIN INTERÉS Pagando desde Ver más promociones HASTA 6 CUOTAS SIN INTERÉS Pagando desde Ver más promociones HASTA 9 CUOTAS SIN INTERÉS Pagando desde Ver más promociones 6 CUOTAS SIN INTERÉS Pagando desde Ver más promociones 6 CUOTAS SIN INTERÉS Pagando desde Ver más promociones 6 CUOTAS SIN INTERÉS Pagando desde Ver más promociones 6 CUOTAS S...",
     "url_producto": "https://promociones.mercadopago.com.ar/seller/compra-gamer/"
   },
   {

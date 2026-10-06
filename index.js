@@ -139,9 +139,16 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       const encabezados = [...document.querySelectorAll('h2, h3')];
       const titulo = encabezados.find((e) => /mercado\s*pago/i.test(enc(e)));
       const sub = encabezados.find((e) => /(pagar|pague|pagués|pagando).*mercado\s*pago/i.test(enc(e)));
+      const logo = [...document.querySelectorAll('img')]
+        .map((i) => i.src)
+        .find((s) => {
+          const nombre = String(s).split('/').pop().toLowerCase();
+          return /logo[\s._-]*mp|mp[\s._-]*logo|mercadopago/.test(nombre);
+        }) || null;
       return {
         titulo: enc(titulo),
         sub: enc(sub),
+        logo,
       };
     });
 
@@ -151,7 +158,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         comercio: 'Mercado Pago',
         beneficio: limpiarTexto(heroMP.sub) || limpiarTexto(heroMP.titulo),
         cuotas: null,
-        imagen: null,
+        imagen: heroMP.logo,
         descripcion: limpiarTexto(heroMP.titulo),
         vigencia: null,
         url_promocion: null,
